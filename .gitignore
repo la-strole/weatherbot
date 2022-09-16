@@ -163,3 +163,4 @@ docker_image/
 /.run/
 /log.txt
 /.env
+/tests/log.txt
