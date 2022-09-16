@@ -1,7 +1,7 @@
 import os
 from datetime import datetime
 
-from weather import weather
+import weather
 
 
 class TestWeatherClass:
@@ -9,7 +9,7 @@ class TestWeatherClass:
     def setup_class(cls):
         cls.token = os.getenv("OPENWEATHER_TOKEN")
         assert cls.token
-        cls.weather = weather()
+        cls.weather = weather
 
     def test_city_geocoding(self):
         city = 'Moscow'
