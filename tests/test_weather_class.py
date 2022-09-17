@@ -7,9 +7,7 @@ import weather
 class TestWeatherClass:
 
     def setup_class(cls):
-        cls.token = os.getenv("OPENWEATHER_TOKEN")
-        assert cls.token
-        cls.weather = weather
+       cls.weather = weather
 
     def test_city_geocoding(self):
         city = 'Moscow'
@@ -84,5 +82,4 @@ class TestWeatherClass:
 
         forcast_weather: str = self.weather.get_weather_forcast_day(city,
                                                                     datetime.now().day - 1)
-        assert isinstance(forcast_weather, str)
-        assert forcast_weather.startswith('Погода доступна на 5 дней вперед')
+        assert not forcast_weather

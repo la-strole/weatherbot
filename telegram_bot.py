@@ -1,31 +1,31 @@
+import logging
 import os
 import re
-import logging
 
 import telebot
 
-import weather
 import serialization
+import settings
+import weather
 
 # Add logger
 logger = logging.getLogger('telegram_bot')
-f_handler = logging.FileHandler('../log.txt')
+f_handler = logging.FileHandler('log.txt')
 f_format = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 f_handler.setFormatter(f_format)
 logger.addHandler(f_handler)
 logger.setLevel(os.getenv('LOG_LEVEL', 'DEBUG'))
 
-bot_token = os.getenv("BOT_TOKEN")
-
-assert bot_token
-bot = telebot.TeleBot(token=os.getenv("BOT_TOKEN"))
+token = settings.TELEGRAM_BOT_TOKEN
+assert token
+bot = telebot.TeleBot(token)
 
 
 @bot.message_handler(commands=['help', ])
 def send_help(message):
-    bot.reply_to(message, "1. 'погода <город>' - узнать текущую погоду;"
+    bot.reply_to(message, "1. 'погода <город>' - узнать текущую погоду;\n"
                           "2. 'погода <город> <число>' - "
-                          "погода на число (доступно на 5 дней вперед);\n"
+                          "погода на число (доступно на 5 дней вперед).\n"
                  )
 
 
@@ -57,11 +57,15 @@ def send_weather(message):
                 bot.reply_to(message, err_msg)
 
         # If it is current weather
-        if city:
-            replay_test = weather.get_current_weather(city=city)
-            if replay_test:
+        elif city:
+            replay_text = weather.get_current_weather(city=city)
+            # If it is one city with this name
+            if replay_text and isinstance(replay_text, str):
                 logger.debug(f"Send current weather for city {city}")
-                bot.reply_to(message, replay_test)
+                bot.reply_to(message, replay_text)
+            # If there are multiple cities with this name
+            elif replay_text and isinstance(replay_text, list):
+
             else:
                 err_msg = f"Не могу найти погоду для {city}. Попробуйте еще раз."
                 logger.debug(f"Can not send current weather for city {city}")
@@ -72,3 +76,5 @@ def send_weather(message):
 
     except (AssertionError, ValueError) as e:
         logger.error(e)
+        bot.reply_to(message, 'Не могу найти погоду. Попробуйте еще раз. '
+                              'Прогноз доступен на пять дней вперед.')

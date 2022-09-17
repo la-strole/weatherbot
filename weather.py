@@ -2,11 +2,12 @@
 # https://openweathermap.org/api/one-call-3
 import logging
 import os
-from datetime import datetime
+from datetime import datetime, timedelta
 from typing import Dict, List, Optional, Union
 
 import requests
 
+import settings
 from serialization import ValidDay
 
 # Add logger
@@ -17,7 +18,8 @@ f_handler.setFormatter(f_format)
 logger_weather.addHandler(f_handler)
 logger_weather.setLevel(os.getenv('LOG_LEVEL', 'DEBUG'))
 
-token = os.environ.get('OPENWEATHER_TOKEN')
+token = settings.OPEN_WEATHER_TOKEN
+assert token
 
 
 def get_geocoding(city: str, state='', country_code='') \
@@ -40,14 +42,14 @@ def get_geocoding(city: str, state='', country_code='') \
             assert response.status_code == 200
             result = response.json()
         except Exception as e:
-            logger_weather.exception(f"Can not get geocoding "
+            logger_weather.exception(f"get_geocoding: Can not get geocoding "
                                      f"for city {city}."
                                      f" Exception: {e}.")
             return None
-
+        logger_weather.debug(f"get_geocoding: Return geocoding for city {city}")
         return result
     else:
-        logger_weather.error("Can not find openweather token.")
+        logger_weather.error("get_geocoding: Can not find openweather token.")
         return None
 
 
@@ -58,7 +60,11 @@ def get_current_weather(city: str,
 
     if geocoding_list and token:
         # If exists only one city with this name.
-        if len(geocoding_list) == 1:
+        if len(geocoding_list) == 1 or \
+                all((place['state'] == geocoding_list[0]['state'] and
+                    place['country'] == geocoding_list[0]['country']) for
+                    place in geocoding_list):
+
             geocoding = geocoding_list[0]
             url = f"https://api.openweathermap.org/data/2.5/weather?" \
                   f"lat={geocoding.get('lat')}&" \
@@ -85,17 +91,23 @@ def get_current_weather(city: str,
                                           f'ветер {item["speed"]} м/с\n'
                                           f'Восход: {sunrise}, Закат: {sunset}'))
             except Exception as e:
-                logger_weather.exception(f"Can not get current weather "
+                logger_weather.exception(f"get_current_weather: "
+                                         f"Can not get current weather "
                                          f"for {city}. Extension: {e}.")
                 return None
+            logger_weather.debug(f"get_current_weather: "
+                                 f"Return current weather for city {city}")
             return result
         # If there are multiple cities with this name
         else:
             city_list = [{'state': row.get('state'), 'country': row.get('country')}
                          for row in geocoding_list]
+            logger_weather.debug(f"get_current_weather: "
+                                 f"return city list with name {city}")
             return city_list
     else:
-        logger_weather.error(f"Can not get geocoding for '{city}'")
+        logger_weather.error(f"get_current_weather: "
+                             f"Can not get geocoding for '{city}'")
         return None
 
 
@@ -113,7 +125,11 @@ def get_weather_forcast_day(city: str,
 
         # If there is only one city with this name
 
-        if len(geocoding_list) == 1:
+        if len(geocoding_list) == 1 or \
+                all((place['state'] == geocoding_list[0]['state'] and
+                    place['country'] == geocoding_list[0]['country']) for
+                    place in geocoding_list):
+
             geocoding = geocoding_list[0]
             url = f"https://api.openweathermap.org/data/2.5/forecast?" \
                   f"lat={geocoding.get('lat')}&" \
@@ -134,9 +150,12 @@ def get_weather_forcast_day(city: str,
                                if datetime.fromtimestamp(row['dt']).day == valid_day]
 
                 if not day_weather:
-                    return "Погода доступна на 5 дней вперед"
+                    logger_weather.debug(f"get_weather_forcast_day:"
+                                         f"Not forcast found for day {valid_day}")
+                    return None
 
-                result = f'Погода в г. {city.capitalize()} ({response["city"]["country"]}) на {day} число\n'
+                result = f'Погода в г. {city.capitalize()} ' \
+                         f'({response["city"]["country"]}) на {day} число\n'
                 for item in day_weather:
                     dt = datetime.utcfromtimestamp(item["dt"] + timezone)
                     result = '\n'.join((result,
@@ -150,18 +169,24 @@ def get_weather_forcast_day(city: str,
                 sunset = datetime.utcfromtimestamp(response["city"]["sunset"] +
                                                    timezone).strftime("%H:%M")
                 result = '\n'.join((result, f"Восход: {sunrise} Закат: {sunset}"))
+                logger_weather.debug(f"get_weather_forcast_day: "
+                                     f"Send forcast for city {city} day {valid_day}")
                 return result
 
             except Exception as e:
                 logger_weather.exception(
+                    f"get_weather_forcast_day:"
                     f"Can not get weather forcast for {city}. Extension: {e}.")
                 return None
         # If there are many cities with this name.
         else:
             city_list = [{'state': row.get('state'), 'country': row.get('country')}
                          for row in geocoding_list]
+            logger_weather.debug(f"get_weather_forcast_day:"
+                                 f"Return list of cities with name {city}")
             return city_list
     else:
-        logger_weather.error(f"Can not get geocoding for '{city}' "
+        logger_weather.error(f"get_weather_forcast_day:"
+                             f"Can not get geocoding for '{city}' "
                              f"or there are not token for openweather")
         return None

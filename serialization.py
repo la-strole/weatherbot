@@ -17,7 +17,7 @@ class ValidDay(BaseModel):
                                  f"Can make forcast for 5 days from now.")
         else:
             delta = now + timedelta(days=5)
-            if key <= delta.day:
+            if key <= delta.day and delta.month > now.month:
                 return key
             else:
                 raise ValueError(f"day error ({key}). "
