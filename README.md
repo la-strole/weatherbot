@@ -7,7 +7,7 @@
 
 
 
-## Authors
+## Автор
 
 - [@la-strole](https://github.com/la-strole)
 
@@ -36,41 +36,43 @@ https://youtu.be/dTqsToz7FMY
 
 
 
-## Installation
+## Установка
 
 ```bash
   make install
 ```
     
-## License
+## Лицензия
 
 [MIT](https://choosealicense.com/licenses/mit/)
 
 
-## Run Locally
+## Локальный запуск
 
-Clone the project
+Зарегистрироваться на https://openweathermap.org/ и получить бесплатный токен.
+
+Клонировать
 
 ```bash
-  git clone https://link-to-project
+  git clone <path>
 ```
 
-Go to the project directory
+Перейти в проект
 
 ```bash
-  cd my-project
+  cd weatherbot
 ```
 
-Install dependencies
+Установить зависимости
 
 ```bash
-  npm install
+  make install
 ```
 
-Start the server
+Запуск сервера
 
 ```bash
-  npm run start
+  make run
 ```
 
 
