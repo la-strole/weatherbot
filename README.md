@@ -78,13 +78,9 @@ https://youtu.be/dTqsToz7FMY
 
 ## Screenshots
 
-![App Screenshot 1](https://drive.google.com/uc?export=view&id=1f07wZE_qntmysjWNGGn7J3UedUDwL5s6)
-
-![App Screenshot 2](https://drive.google.com/file/d/1RJQd-yfJBQ6ywOblrH6QobGxOkBAsRMR/view?usp=sharing)
-
-![App Screenshot 3](https://drive.google.com/file/d/1EH7PHUSzrzBoX304i2GZtpQ57UdWcM3E/view?usp=sharing)
-
-
+<img src="https://drive.google.com/uc?export=view&id=1f07wZE_qntmysjWNGGn7J3UedUDwL5s6" width=50% height=50%>
+<img src="https://drive.google.com/uc?export=view&id=1RJQd-yfJBQ6ywOblrH6QobGxOkBAsRMR" width=50% height=50%>
+<img src="https://drive.google.com/uc?export=view&id=1EH7PHUSzrzBoX304i2GZtpQ57UdWcM3E" width=50% height=50%>
 
 ## Running Tests
 
