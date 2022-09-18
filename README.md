@@ -78,7 +78,7 @@ https://youtu.be/dTqsToz7FMY
 
 ## Screenshots
 
-![App Screenshot 1](https://drive.google.com/file/d/1f07wZE_qntmysjWNGGn7J3UedUDwL5s6/view?usp=sharing)
+![App Screenshot 1](https://drive.google.com/uc?export=view&id=1f07wZE_qntmysjWNGGn7J3UedUDwL5s6)
 
 ![App Screenshot 2](https://drive.google.com/file/d/1RJQd-yfJBQ6ywOblrH6QobGxOkBAsRMR/view?usp=sharing)
 
