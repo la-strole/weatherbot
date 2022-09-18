@@ -18,3 +18,6 @@ test:
 
 linter:
 	flake8 --exclude=.mypy_cache,.pytest_cache,.run,.venv,.env,.gitignore,Dockerfile,*.txt .
+
+run:
+	python3 main.py

@@ -22,3 +22,11 @@ class ValidDay(BaseModel):
             else:
                 raise ValueError(f"day error ({key}). "
                                  f"Can make forcast for 5 days from now.")
+
+
+class ValidCityInstance(BaseModel):
+    city: str
+    state: str
+    country: str
+    lon: float
+    lat: float
