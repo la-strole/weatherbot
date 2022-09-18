@@ -54,7 +54,7 @@ https://youtu.be/dTqsToz7FMY
 Клонировать
 
 ```bash
-  git clone <path>
+  git clone https://github.com/la-strole/weatherbot.git
 ```
 
 Перейти в проект
