@@ -8,7 +8,7 @@ class ValidDay(BaseModel):
 
     @validator('day')
     def validate_day(cls, key):
-        now = datetime.now()
+        now = datetime.utcnow()
         if key >= now.day:
             if key - now.day <= 5:
                 return key
