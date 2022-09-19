@@ -1,5 +1,5 @@
 
-# Telegram weather bot
+# Telegram weather bot @laweatherbot
 
 Позволяет получить текущую погоду и прогноз на пять дней вперед. 
 
