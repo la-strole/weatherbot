@@ -1,4 +1,4 @@
-from telebot.async_telebot import AsyncTeleBot
+from telebot import TeleBot
 
 import serialization
 import weather
@@ -6,9 +6,9 @@ from handlers import forcast_history, logger
 from keyboards import change_forcast_day
 
 
-def callback_handler(bot: AsyncTeleBot):
+def callback_handler(bot: TeleBot):
     @bot.callback_query_handler(func=lambda call: True)
-    async def callback_handler_function(call):
+    def callback_handler_function(call):
 
         logger.debug(f"callback_handler_function: Get callback {call}")
         response: str = call.data
@@ -24,10 +24,10 @@ def callback_handler(bot: AsyncTeleBot):
                 msg = weather.get_current_weather_api(lat=lat, lon=lon)
                 logger.debug("callback_handler: "
                              "send current weather.")
-                await bot.send_message(parent_msg.chat.id,
-                                       msg,
-                                       parse_mode='HTML'
-                                       )
+                bot.send_message(parent_msg.chat.id,
+                                 msg,
+                                 parse_mode='HTML'
+                                 )
                 return None
 
             # If function = get_weather_forcast
@@ -42,9 +42,9 @@ def callback_handler(bot: AsyncTeleBot):
                 except Exception as e:
                     logger.error(f"callback_handler: "
                                  f"Validate day: Invalid day={day}. {e}")
-                    await bot.send_message(parent_msg.chat.id,
-                                           'Не могу найти прогноз. '
-                                           'Попробуйте еще раз.')
+                    bot.send_message(parent_msg.chat.id,
+                                     'Не могу найти прогноз. '
+                                     'Попробуйте еще раз.')
                     return None
                 forcast = weather.get_weather_forcast_day_api(lat=lat,
                                                               lon=lon)
@@ -58,9 +58,9 @@ def callback_handler(bot: AsyncTeleBot):
                 if not forcast:
                     logger.error("callback_handler: "
                                  "Can not get forcast for city")
-                    await bot.send_message(parent_msg.chat.id,
-                                           'Не могу найти прогноз. '
-                                           'Попробуйте еще раз.')
+                    bot.send_message(parent_msg.chat.id,
+                                     'Не могу найти прогноз. '
+                                     'Попробуйте еще раз.')
                     return None
 
                 msg = forcast.get(day)
@@ -72,19 +72,19 @@ def callback_handler(bot: AsyncTeleBot):
                     )
                     logger.debug(f"callback_handler:"
                                  f"Send forcast for city. day={day}")
-                    await bot.send_message(parent_msg.chat.id,
-                                           msg,
-                                           reply_markup=markup,
-                                           parse_mode='HTML'
-                                           )
+                    bot.send_message(parent_msg.chat.id,
+                                     msg,
+                                     reply_markup=markup,
+                                     parse_mode='HTML'
+                                     )
                     return None
                 else:
                     logger.debug(f"callback_handler:"
                                  f"Can not get msg=forcast.get(day), "
                                  f"city, day={day}")
-                    await bot.send_message(parent_msg.chat.id,
-                                           'Не могу найти прогноз. '
-                                           'Попробуйте еще раз.')
+                    bot.send_message(parent_msg.chat.id,
+                                     'Не могу найти прогноз. '
+                                     'Попробуйте еще раз.')
                     return None
 
             # If function = change day forcast
@@ -100,10 +100,10 @@ def callback_handler(bot: AsyncTeleBot):
                 except Exception as e:
                     logger.error(f"callback_handler: "
                                  f"Validate day: Invalid day={day}. {e}")
-                    await bot.send_message(parent_msg.chat.id,
-                                           'Прогноз доступен '
-                                           'на пять дней вперед. '
-                                           'Попробуйте еще раз.')
+                    bot.send_message(parent_msg.chat.id,
+                                     'Прогноз доступен '
+                                     'на пять дней вперед. '
+                                     'Попробуйте еще раз.')
                     return None
 
                 # Try to ask handlers.__init__ dict for the data
@@ -121,7 +121,7 @@ def callback_handler(bot: AsyncTeleBot):
                                      "Send forcast for day from global "
                                      "dictionary (__handlers/__init__)")
 
-                        await bot.edit_message_text(
+                        bot.edit_message_text(
                             text=msg,
                             message_id=parent_msg.message_id,
                             chat_id=parent_msg.chat.id,
@@ -147,7 +147,7 @@ def callback_handler(bot: AsyncTeleBot):
                     if not forcast:
                         logger.error("callback_handler: "
                                      "Can not get forcast for city")
-                        await bot.send_message(
+                        bot.send_message(
                             parent_msg.chat.id,
                             'Прогноз доступен на пять дней вперед. '
                             'Попробуйте еще раз.'
@@ -163,18 +163,18 @@ def callback_handler(bot: AsyncTeleBot):
                         )
                         logger.debug(f"callback_handler:"
                                      f"Send forcast for city, day={day}")
-                        await bot.send_message(parent_msg.chat.id,
-                                               msg,
-                                               reply_markup=markup,
-                                               parse_mode='HTML'
-                                               )
+                        bot.send_message(parent_msg.chat.id,
+                                         msg,
+                                         reply_markup=markup,
+                                         parse_mode='HTML'
+                                         )
                         return None
 
                     else:
                         logger.debug(f"callback_handler:"
                                      f"Can not get msg=forcast.get(day), "
                                      f"city, day={day}")
-                        await bot.send_message(
+                        bot.send_message(
                             parent_msg.chat.id,
                             'Прогноз доступен на пять дней вперед. '
                             'Попробуйте еще раз.'

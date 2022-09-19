@@ -1,6 +1,4 @@
-import asyncio
-
-from telebot.async_telebot import AsyncTeleBot
+from telebot import TeleBot
 
 import settings
 from handlers import callback_handlers, command_handlers, message_handlers
@@ -8,7 +6,7 @@ from handlers import callback_handlers, command_handlers, message_handlers
 # Add bot instance
 token = settings.TELEGRAM_BOT_TOKEN
 assert token
-bot = AsyncTeleBot(token)
+bot = TeleBot(token)
 
 # Add command handlers
 command_handlers.command_help(bot)
@@ -20,4 +18,4 @@ message_handlers.message_weather_handler(bot)
 callback_handlers.callback_handler(bot)
 
 if __name__ == "__main__":
-    asyncio.run(bot.infinity_polling())
+    bot.infinity_polling()
