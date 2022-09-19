@@ -13,10 +13,10 @@ def command_help(bot: AsyncTeleBot):
         return None
 
     @bot.message_handler(commands=['start', ])
-    async def send_help(message):
-        msg = "погодный бот:" \
-              "1. 'погода <город>' - узнать текущую погоду;\n" \
-              "2. 'погода <город> <число>' - погода на число " \
+    async def send_start(message):
+        msg = "<b>погодный бот:</b>\n" \
+              "1. 'погода город' - узнать текущую погоду;\n" \
+              "2. 'погода город число' - погода на число " \
               "(доступно на 5 дней вперед).\n"
-        await bot.reply_to(message, msg)
+        await bot.reply_to(message, msg, parse_mode='HTML')
         return None
