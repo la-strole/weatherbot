@@ -1,7 +1,4 @@
 install:
-	# Install wireguard
-	apt-get update
-	apt-get -y install wireguard
 
 	# Install poetry
 	curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python3 -
