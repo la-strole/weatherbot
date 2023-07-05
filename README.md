@@ -40,9 +40,9 @@ LOG_LEVEL (optional)
    где: -d - detached mode --rm - удалять контейнер после остановки
    <path_to_env_file> - путь к файлу с токенами на host.
      Файл вида:
-   OPENWEATHER_TOKEN=xxxxxxxxxxxxxxxxxxxxx - токен для openweather (https://openweathermap.org/api)
-   BOT_TOKEN=xxxxxxxxxxxxxxxxxxxxxxxxxxxxx - токен для telegram api (https://core.telegram.org/bots)
-   LOG_LEVEL=WARNING (DEBUG) (optional)`
+   `OPENWEATHER_TOKEN=xxxxxxxxxxxxxxxxxxxxx` - токен для openweather (https://openweathermap.org/api)
+   `BOT_TOKEN=xxxxxxxxxxxxxxxxxxxxxxxxxxxxx` - токен для telegram api (https://core.telegram.org/bots)
+   `LOG_LEVEL=WARNING` (DEBUG) (optional)`
 
 Лицензия
 
