@@ -164,3 +164,6 @@ docker_image/
 /log.txt
 /.env
 /tests/log.txt
+api.txt
+openweather_token
+telegram_token
