@@ -37,12 +37,14 @@ LOG_LEVEL (optional)
 
 1. Скопировать docker image с docker hub - `docker pull eugeneparkhom/weatherbot`
 2. CLI command: `docker run -d --env-file <path_to_env_file> --rm eugeneparkhom/weatherbot make --file /home/Makefile run`
-   где: -d - detached mode --rm - удалять контейнер после остановки
-   <path_to_env_file> - путь к файлу с токенами на host.
-     Файл вида:
+   где:<br>
+   -d - detached mode <br>
+   --rm - удалять контейнер после остановки <br>
+   <path_to_env_file> - путь к файлу с токенами на host. <br>
+     Файл вида:<br>
    `OPENWEATHER_TOKEN=xxxxxxxxxxxxxxxxxxxxx` - токен для openweather (https://openweathermap.org/api)
-   `BOT_TOKEN=xxxxxxxxxxxxxxxxxxxxxxxxxxxxx` - токен для telegram api (https://core.telegram.org/bots)
-   `LOG_LEVEL=WARNING` (DEBUG) (optional)`
+   `BOT_TOKEN=xxxxxxxxxxxxxxxxxxxxxxxxxxxxx` - токен для telegram api (https://core.telegram.org/bots) <br>
+   `LOG_LEVEL=WARNING` (DEBUG) (optional)
 
 Лицензия
 
