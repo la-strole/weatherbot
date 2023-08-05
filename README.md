@@ -20,20 +20,35 @@
 
 https://youtu.be/dTqsToz7FMY
 
-
-## Environment Variables
-
-`OPENWEATHER_TOKEN` 
-
-`BOT_TOKEN`
-
-`LOG_LEVEL (optional)`
-
 ## Features
 
 - Использование Inline Button для быстрого получения прогноза на соседние дни
 - Кэширование запроса - уменьшение нагрузки на сервер
 
+## Environment Variables
+
+OPENWEATHER_TOKEN - токен для openweather (https://openweathermap.org/api)
+
+BOT_TOKEN - токен для telegram api (https://core.telegram.org/bots)
+
+LOG_LEVEL (optional)
+
+## Запуск через docker
+
+1. Скопировать docker image с docker hub - `docker pull eugeneparkhom/weatherbot`
+2. CLI command: `docker run -d --env-file <path_to_env_file> --rm eugeneparkhom/weatherbot make --file /home/Makefile run`
+   где:<br>
+   -d - detached mode <br>
+   --rm - удалять контейнер после остановки <br>
+   <path_to_env_file> - путь к файлу с токенами на host. <br>
+     Файл вида:<br>
+   `OPENWEATHER_TOKEN=xxxxxxxxxxxxxxxxxxxxx` - токен для openweather (https://openweathermap.org/api)
+   `BOT_TOKEN=xxxxxxxxxxxxxxxxxxxxxxxxxxxxx` - токен для telegram api (https://core.telegram.org/bots) <br>
+   `LOG_LEVEL=WARNING` (DEBUG) (optional)
+
+Лицензия
+
+MIT
 
 
 ## Установка
